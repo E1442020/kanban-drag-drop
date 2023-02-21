@@ -1,19 +1,66 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 export default function App() {
-  const finalSpaceCharacters = [
-    { id: "1", name: "Sleeping" },
-    { id: "2", name: "Running" },
-    { id: "3", name: "Eating" },
-    { id: "4", name: "Playing" },
+  const [task,setTask]=useState('');
+  const [taskItems,setTaskItems]=useState([])
+  // const taskItem = [
+  //   { id: "1", name: "Sleeping" },
+  //   { id: "2", name: "Running" },
+  //   { id: "3", name: "Eating" },
+  //   { id: "4", name: "Playing" },
 
-  ];
+  // ];
+
+  
+
+   //get taskItems from localStorage
+
+   const checkTaskItemsInfo = () => {
+    let info = localStorage.getItem("taskItemsInfo");
+    if (info === null) {
+      return [];
+    }
+    return JSON.parse(info);
+  };
+
+  useEffect(() => {
+   
+    setTaskItems(checkTaskItemsInfo());
+  }, []);
+
+   //set taskItems to localStorage
+
+   let setTaskItemsToLocalStorage = () => {
+    localStorage.setItem("taskItemsInfo", JSON.stringify(taskItems));
+  };
+
+   //Add New taskItem
+
+   const addNewTaskItem = () => {
+    if (task.trim() == null ) return;
+    let id;
+    if (taskItems.length <= 0) {
+      id = 1;
+    } else {
+      id = taskItems[taskItems.length - 1].id + 1;
+    }
+    const newTaskItem = {
+      id: id,
+      title: task,
+      
+    };
+
+    taskItems.push(newTaskItem);
+    console.log(taskItems)
+    setTaskItemsToLocalStorage();
+    
+  };
 
   const taskStatus = {
     requested: {
       name: "Requested",
-      items: finalSpaceCharacters
+      items: taskItems
     },
     toDo: {
       name: "To do",
@@ -28,11 +75,7 @@ export default function App() {
       items: []
     }
   };
-
-
-  
-
-
+  console.log(taskStatus.requested.items)
 
   function onDragEnd(result, columns, setColumns) {
     console.log(result);
@@ -82,6 +125,9 @@ export default function App() {
 
   return (
     <>
+          <input type='text' placeholder="Add Task" value={task} onChange={(e)=>setTask(e.target.value)} />
+          <button onClick={addNewTaskItem}>Add</button>
+
     <div className='page-container'>
       <DragDropContext  onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
       {Object.entries(columns).map(([columnId, column], index) => {
@@ -114,6 +160,7 @@ export default function App() {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
+                      
                       {item.name}                      </li>
                     )}
                   </Draggable>
