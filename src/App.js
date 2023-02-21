@@ -4,6 +4,9 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 export default function App() {
   const [task,setTask]=useState('');
   const [taskItems,setTaskItems]=useState([])
+  let [taskStatus,setTaskStatus]=useState({})
+  const [columns, setColumns] = useState(taskStatus);
+
   // const taskItem = [
   //   { id: "1", name: "Sleeping" },
   //   { id: "2", name: "Running" },
@@ -16,7 +19,7 @@ export default function App() {
 
    //get taskItems from localStorage
 
-   const checkTaskItemsInfo = () => {
+   const getTaskItemsFromLocalStorage = () => {
     let info = localStorage.getItem("taskItemsInfo");
     if (info === null) {
       return [];
@@ -24,10 +27,7 @@ export default function App() {
     return JSON.parse(info);
   };
 
-  useEffect(() => {
-   
-    setTaskItems(checkTaskItemsInfo());
-  }, []);
+ 
 
    //set taskItems to localStorage
 
@@ -45,11 +45,16 @@ export default function App() {
     } else {
       id = taskItems[taskItems.length - 1].id + 1;
     }
+    let idStr=id.toString();
     const newTaskItem = {
-      id: id,
+      id: idStr,
       title: task,
       
     };
+    // const tempArr=[...taskItems];
+    // tempArr.push(newTaskItem);
+    // setTaskItems(()=>[...tempArr])
+
 
     taskItems.push(newTaskItem);
     console.log(taskItems)
@@ -57,10 +62,10 @@ export default function App() {
     
   };
 
-  const taskStatus = {
+   taskStatus = {
     requested: {
       name: "Requested",
-      items: taskItems
+      items: []
     },
     toDo: {
       name: "To do",
@@ -75,7 +80,11 @@ export default function App() {
       items: []
     }
   };
-  console.log(taskStatus.requested.items)
+  
+  let tempStatus={...taskStatus}
+  tempStatus.requested.items=[...taskItems];
+  setTaskStatus(tempStatus)
+
 
   function onDragEnd(result, columns, setColumns) {
     console.log(result);
@@ -121,7 +130,12 @@ export default function App() {
     // items.splice(result.destination.index, 0, reorderedItem);
     // updateCharacters(items);
   }
-  const [columns, setColumns] = useState(taskStatus);
+
+  useEffect(() => {
+   
+    setTaskItems(getTaskItemsFromLocalStorage());
+    // setColumns(taskStatus)
+  }, []);
 
   return (
     <>
@@ -144,7 +158,7 @@ export default function App() {
               >
                 <h2>{column.name}</h2>
                 <div style={{ margin: 8 }} >
-        <Droppable droppableId={columnId} key={columnId}>
+        <Droppable droppableId={columnId} key={columnId} > 
           {(provided) => (
             <ul
               className="characters"
