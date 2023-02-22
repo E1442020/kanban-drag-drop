@@ -4,13 +4,47 @@
   box-sizing: border-box;
 }
 
-
-
 .page-container{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   width: 90%;
   margin: 50px auto;
+}
+.page-container .input-container{
+  width: 50%;
+  margin: 0 auto;;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  /* justify-content: center; */
+ 
+}
+.page-container .input-container input{
+  padding: 10px;
+  border:none;
+  color: rgb(188, 186, 186);
+  font-size: 20px;
+  background-color: #403d39;
+}
+.page-container .input-container button{
+  padding: 10px;
+  background-color: #252422;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  border: none;
+
+}
+.page-container .input-container button:hover{
+  opacity: .7;
+}
+
+.tasks-container{
+ 
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
 
 
 }
@@ -18,14 +52,9 @@ ul{
   list-style-type: none;
   min-width: 200px;
   min-height: 500px;
-  /* margin: 50px auto; */
   padding: 20px;
   display: flex;
   flex-direction: column;
-  
-  /* gap: 15px; */
-  /* justify-content: center;
-  align-items: center; */
   background-color: rgb(32, 32, 32);
  
 
@@ -44,8 +73,11 @@ ul li:last-child{
 }
 
 @media screen and (max-width:940px){
+  .page-container .input-container{
+    width: 98%;
+  }
   ul{
-    /* width: 100%; */
+   
     margin: 30px auto;
     min-width: 300px;
     min-height: 400px;
@@ -55,7 +87,7 @@ ul li:last-child{
     min-width: 100px;
 
   }
-  .page-container{
+  .tasks-container{
     flex-direction: column;
     
   }

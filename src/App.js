@@ -4,26 +4,35 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 export default function App() {
   const [task,setTask]=useState('');
   const [taskItems,setTaskItems]=useState([])
-  let [taskStatus,setTaskStatus]=useState({})
+  const [taskStatus,setTaskStatus]=useState({requested: {
+    name: "Requested",
+    items: []
+  },
+  toDo: {
+    name: "To do",
+    items: []
+  },
+  inProgress: {
+    name: "In Progress",
+    items: []
+  },
+  done: {
+    name: "Done",
+    items: []
+  }})
   const [columns, setColumns] = useState(taskStatus);
 
-  // const taskItem = [
-  //   { id: "1", name: "Sleeping" },
-  //   { id: "2", name: "Running" },
-  //   { id: "3", name: "Eating" },
-  //   { id: "4", name: "Playing" },
-
-  // ];
-
-  
 
    //get taskItems from localStorage
 
    const getTaskItemsFromLocalStorage = () => {
     let info = localStorage.getItem("taskItemsInfo");
     if (info === null) {
+     
       return [];
-    }
+    }else
+     
+
     return JSON.parse(info);
   };
 
@@ -51,39 +60,23 @@ export default function App() {
       title: task,
       
     };
-    // const tempArr=[...taskItems];
-    // tempArr.push(newTaskItem);
-    // setTaskItems(()=>[...tempArr])
-
-
     taskItems.push(newTaskItem);
     console.log(taskItems)
     setTaskItemsToLocalStorage();
+    setTask('');
     
   };
 
-   taskStatus = {
-    requested: {
-      name: "Requested",
-      items: []
-    },
-    toDo: {
-      name: "To do",
-      items: []
-    },
-    inProgress: {
-      name: "In Progress",
-      items: []
-    },
-    done: {
-      name: "Done",
-      items: []
-    }
-  };
-  
-  let tempStatus={...taskStatus}
-  tempStatus.requested.items=[...taskItems];
-  setTaskStatus(tempStatus)
+  useEffect(() => {
+   
+    setTaskItems(getTaskItemsFromLocalStorage());
+    console.log(taskItems)
+    const tempStatus={...taskStatus}
+    tempStatus.requested.items=[...taskItems];
+    setTaskStatus(tempStatus);
+    setColumns(tempStatus)
+  }, []);
+ 
 
 
   function onDragEnd(result, columns, setColumns) {
@@ -123,26 +116,17 @@ export default function App() {
         }
       });
     }
-
-    
-    // const items = Array.from(characters);
-    // const [reorderedItem] = items.splice(result.source.index, 1);
-    // items.splice(result.destination.index, 0, reorderedItem);
-    // updateCharacters(items);
   }
 
-  useEffect(() => {
-   
-    setTaskItems(getTaskItemsFromLocalStorage());
-    // setColumns(taskStatus)
-  }, []);
-
+ 
   return (
     <>
-          <input type='text' placeholder="Add Task" value={task} onChange={(e)=>setTask(e.target.value)} />
-          <button onClick={addNewTaskItem}>Add</button>
-
     <div className='page-container'>
+      <div className='input-container'>
+          <input type='text' placeholder="Add Task" value={task} onChange={(e)=>setTask(e.target.value)} />
+          <button onClick={addNewTaskItem}>+ADD</button>
+          </div>
+    <div className='tasks-container'>
       <DragDropContext  onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
       {Object.entries(columns).map(([columnId, column], index) => {
             return (
@@ -175,7 +159,7 @@ export default function App() {
                         {...provided.dragHandleProps}
                       >
                       
-                      {item.name}                      </li>
+                      {item.title}                      </li>
                     )}
                   </Draggable>
                 );
@@ -195,7 +179,7 @@ export default function App() {
       </div>
         
         
-     
+     </div>
     </>
   );
 }
