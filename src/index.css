@@ -4,6 +4,9 @@
   box-sizing: border-box;
   font-family: sans-serif;
 }
+body{
+  background-color: #06619a;
+}
 
 .page-container{
   display: flex;
@@ -24,18 +27,21 @@
 .page-container .input-container input{
   padding: 10px;
   border:none;
-  color: rgb(188, 186, 186);
+  color:#8b9aaa;
   font-size: 20px;
-  background-color: #403d39;
+  background-color:#FBFBFB;
 }
 .page-container .input-container button{
   padding: 10px;
-  background-color: #252422;
-  color: white;
+  background-color: #EFEFEF;
+  color: #0079C5;
   cursor: pointer;
   font-size: 20px;
   border: none;
 
+}
+.statusName{
+  color: #f0f5f8;
 }
 .page-container .input-container button:hover{
   opacity: .7;
@@ -49,6 +55,11 @@
 
 
 }
+.empty-input{
+  background-color: rgb(218, 175, 175);
+
+  padding: 15px;
+}
 ul{
   list-style-type: none;
   /* min-width: 200px; */
@@ -58,13 +69,13 @@ ul{
   padding: 20px;
   display: flex;
   flex-direction: column;
-  background-color: rgb(32, 32, 32);
+  background-color: #d3d2d2;
  
 
 }
 ul li{
-  color: black;
-  background-color: white;
+  color: #3F87C3;
+  background-color: #FFFFFF;
   padding: 10px;
   margin-bottom: 10px;
   min-width: 150px;
@@ -87,8 +98,9 @@ ul li .delete-container h3{
   
 }
 .tasksEmpty{
-  color: white;
+  color: #3F87C3;
   padding-top: 10px;
+
 }
 @media screen and (max-width:940px){
   .page-container .input-container{

@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { AiFillDelete } from "react-icons/ai";
 export default function App() {
   const [task, setTask] = useState("");
+  const [inputEmpty,setInputEmpty] = useState(false)
   const [columns, setColumns] = useState({
     requested: {
       name: "Requested",
@@ -32,7 +33,8 @@ export default function App() {
   //Add New taskItem
 
   const addNewTaskItem = () => {
-    if (task.trim() == null) return;
+    if (task.trim() == null|task.trim()==''){ setInputEmpty(true); return;}
+    if(task.length>0) setInputEmpty(false);
     let id = uuidv4();
 
     const newTaskItem = {
@@ -132,6 +134,7 @@ export default function App() {
             value={task}
             onChange={(e) => setTask(e.target.value)}
           />
+          {inputEmpty?<p className="empty-input">Field cannot be empty or contain space only</p>:''}
           <button onClick={addNewTaskItem}>+ADD</button>
         </div>
         <div className="tasks-container">
@@ -148,7 +151,7 @@ export default function App() {
                   }}
                   key={columnId}
                 >
-                  <h2>{column.name}</h2>
+                  <h2 className="statusName">{column.name}</h2>
                   <div style={{ margin: 8 }}>
                     <Droppable droppableId={columnId} key={columnId}>
                       {(provided) => (
@@ -178,7 +181,7 @@ export default function App() {
                                       <h3> {item.title} </h3>
                                       
                                         <AiFillDelete
-                                          style={{ color: "red" }}
+                                          style={{ color: "rgb(202, 104, 104)" }}
                                           size={22}
                                           onClick={(e) => removeTask(item, e)}
                                         />
