@@ -71,6 +71,13 @@ ul li{
 ul li:last-child{
   margin-bottom: 0;
 }
+ul li .delete-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+
+}
 
 @media screen and (max-width:940px){
   .page-container .input-container{
