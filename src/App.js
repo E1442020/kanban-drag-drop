@@ -4,9 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { AiFillDelete } from "react-icons/ai";
 export default function App() {
   const [task, setTask] = useState("");
-  const [taskItems, setTaskItems] = useState([]);
-  const [shoeDeleteIcon, setShoeDeleteIcon] = useState(true);
-  const [taskStatus, setTaskStatus] = useState({
+  const [columns, setColumns] = useState({
     requested: {
       name: "Requested",
       items: [],
@@ -22,14 +20,12 @@ export default function App() {
     done: {
       name: "Done",
       items: [],
-    },
-  });
-  const [columns, setColumns] = useState(taskStatus);
+    },});
 
   const getTaskStatusFromLocalStorage = () => {
     let info = localStorage.getItem("droppable");
     if (info === null) {
-      return taskStatus;
+      return columns;
     } else return JSON.parse(info);
   };
 
@@ -43,26 +39,18 @@ export default function App() {
       id: id,
       title: task,
     };
-    const tempTaskItems = [...taskItems];
-    tempTaskItems.push(newTaskItem);
-
     
-
-    const tempStatus = { ...taskStatus };
-    tempStatus.requested.items = [...tempTaskItems];
-    setTaskItems(tempTaskItems);
-    setTaskStatus(tempStatus);
+    const tempStatus = { ...columns };
+    tempStatus.requested.items.push(newTaskItem);
     setColumns(tempStatus);
     localStorage.setItem("droppable", JSON.stringify(tempStatus));
-    console.log(tempStatus);
-
     setTask("");
   };
 
   //RemoveTask
   const removeTask = (taskItemRemoved, e) => {
     e.stopPropagation();
-    const tempStatus = { ...taskStatus };
+    const tempStatus = { ...columns };
     {
       Object.entries(tempStatus).map(([columnId, column], index) => {
         column.items.map((item, index) => {
@@ -72,16 +60,14 @@ export default function App() {
         });
       });
     }
-    setTaskStatus(tempStatus);
+    setColumns(tempStatus);
     console.log(tempStatus);
     localStorage.setItem("droppable", JSON.stringify(tempStatus));
   };
 
   // localStorage.clear()
   useEffect(() => {
-    let tempStatus = getTaskStatusFromLocalStorage();
-    setTaskItems(tempStatus.requested.items);
-    setTaskStatus(tempStatus);
+    let tempStatus = getTaskStatusFromLocalStorage(); 
     setColumns(tempStatus);
     console.log(tempStatus);
   }, []);
