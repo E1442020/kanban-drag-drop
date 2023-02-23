@@ -55,7 +55,7 @@ export default function App() {
       Object.entries(tempStatus).map(([columnId, column], index) => {
         column.items.map((item, index) => {
           if (item.id === taskItemRemoved.id) {
-            column.items.splice(index, 1);
+            tempStatus[columnId].items.splice(index,1)
           }
         });
       });
@@ -157,8 +157,11 @@ export default function App() {
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                         >
+                           {column.items.length==0?<p className="tasksEmpty">No Task Available In {column.name} List</p>:''}
                           {column.items.map((item, index) => {
-                            return (
+                            return (<>
+                           
+                              
                               <Draggable
                                 key={item.id}
                                 draggableId={item.id.toString()}
@@ -170,20 +173,21 @@ export default function App() {
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
                                   >
+                                    
                                     <div className="delete-container">
-                                      <p> {item.title} </p>
-                                      {shoeDeleteIcon && (
+                                      <h3> {item.title} </h3>
+                                      
                                         <AiFillDelete
                                           style={{ color: "red" }}
                                           size={22}
                                           onClick={(e) => removeTask(item, e)}
                                         />
-                                      )}
+                                      
                                     </div>
                                   </li>
                                 )}
                               </Draggable>
-                            );
+                           </> );
                           })}
                           {provided.placeholder}
                         </ul>
