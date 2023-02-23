@@ -36,6 +36,20 @@ export default function App() {
     return JSON.parse(info);
   };
 
+  
+  const getTaskStatusFromLocalStorage = () => {
+    let info = localStorage.getItem("droppable");
+    if (info === null) {
+     
+      return taskStatus;
+    }else
+     
+
+    return JSON.parse(info);
+  };
+
+  
+
  
 
    //set taskItems to localStorage
@@ -61,26 +75,36 @@ export default function App() {
       
     };
     taskItems.push(newTaskItem);
-    console.log(taskItems)
-    setTaskItemsToLocalStorage();
-    setTask('');
+    // console.log(taskItems)
     
-  };
+    setTaskItemsToLocalStorage();
 
-  useEffect(() => {
-   
-    setTaskItems(getTaskItemsFromLocalStorage());
-    console.log(taskItems)
     const tempStatus={...taskStatus}
     tempStatus.requested.items=[...taskItems];
     setTaskStatus(tempStatus);
     setColumns(tempStatus)
+    setTask('');
+    
+  };
+  // localStorage.clear()
+  useEffect(() => {
+   
+    const tempTaskItems=getTaskItemsFromLocalStorage()
+    setTaskItems(tempTaskItems);
+    
+    
+    let tempStatus=getTaskStatusFromLocalStorage();
+    tempStatus.requested.items=[...tempTaskItems];
+    setTaskStatus(tempStatus);
+    setColumns(tempStatus)
+    console.log(tempStatus)
+    
   }, []);
  
 
 
   function onDragEnd(result, columns, setColumns) {
-    console.log(result);
+    // console.log(result);
     if (!result.destination) return;
     const { source, destination } = result;
 
@@ -92,7 +116,8 @@ export default function App() {
       const destItems = [...destColumn.items];
       const [removed] = sourceItems.splice(source.index, 1);
       destItems.splice(destination.index, 0, removed);
-      setColumns({
+      const updateColumnsObjectAfterDrag=
+      {
         ...columns,
         [source.droppableId]: {
           ...sourceColumn,
@@ -102,19 +127,27 @@ export default function App() {
           ...destColumn,
           items: destItems
         }
-      });
+      }
+      localStorage.setItem('droppable',JSON.stringify(updateColumnsObjectAfterDrag))
+      console.log(updateColumnsObjectAfterDrag)
+      setColumns(updateColumnsObjectAfterDrag);
+     
     } else {
       const column = columns[source.droppableId];
       const copiedItems = [...column.items];
       const [removed] = copiedItems.splice(source.index, 1);
       copiedItems.splice(destination.index, 0, removed);
-      setColumns({
+      const updateColumnsObjectAfterDrag={
         ...columns,
         [source.droppableId]: {
           ...column,
           items: copiedItems
         }
-      });
+      }
+      localStorage.setItem('droppable',JSON.stringify(updateColumnsObjectAfterDrag))
+      console.log(updateColumnsObjectAfterDrag)
+      setColumns(updateColumnsObjectAfterDrag);
+      
     }
   }
 
