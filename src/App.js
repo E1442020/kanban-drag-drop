@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import { v4 as uuidv4 } from 'uuid';
 export default function App() {
   const [task,setTask]=useState('');
   const [taskItems,setTaskItems]=useState([])
@@ -23,20 +23,6 @@ export default function App() {
   const [columns, setColumns] = useState(taskStatus);
 
 
-   //get taskItems from localStorage
-
-  //  const getTaskItemsFromLocalStorage = () => {
-  //   let info = localStorage.getItem("taskItemsInfo");
-  //   if (info === null) {
-     
-  //     return [];
-  //   }else
-     
-
-  //   return JSON.parse(info);
-  // };
-
-
   const getTaskStatusFromLocalStorage = () => {
     let info = localStorage.getItem("droppable");
     if (info === null) {
@@ -49,26 +35,12 @@ export default function App() {
   };
 
   
-
- 
-
-   //set taskItems to localStorage
-
-  //  let setTaskItemsToLocalStorage = () => {
-  //   localStorage.setItem("taskItemsInfo", JSON.stringify(taskItems));
-  // };
-
    //Add New taskItem
 
    const addNewTaskItem = () => {
     if (task.trim() == null ) return;
-    let id;
-    if (taskItems.length <= 0) {
-      id = 1;
-    } else {
-      id = taskItems[taskItems.length - 1].id + 1;
-    }
-    // let idStr=id.toString();
+    let id=uuidv4()
+    
     const newTaskItem = {
       id:id,
       title: task,
@@ -81,7 +53,7 @@ export default function App() {
     // setTaskItemsToLocalStorage();
 
     const tempStatus={...taskStatus}
-    tempStatus.requested.items=tempTaskItems;
+    tempStatus.requested.items=[...tempTaskItems];
     setTaskItems(tempTaskItems)
     setTaskStatus(tempStatus);
     setColumns(tempStatus)
@@ -95,6 +67,7 @@ export default function App() {
   useEffect(() => {
     
     let tempStatus=getTaskStatusFromLocalStorage();
+    setTaskItems(tempStatus.requested.items)
     setTaskStatus(tempStatus);
     setColumns(tempStatus)
     console.log(tempStatus)
