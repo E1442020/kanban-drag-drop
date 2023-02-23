@@ -25,18 +25,18 @@ export default function App() {
 
    //get taskItems from localStorage
 
-   const getTaskItemsFromLocalStorage = () => {
-    let info = localStorage.getItem("taskItemsInfo");
-    if (info === null) {
+  //  const getTaskItemsFromLocalStorage = () => {
+  //   let info = localStorage.getItem("taskItemsInfo");
+  //   if (info === null) {
      
-      return [];
-    }else
+  //     return [];
+  //   }else
      
 
-    return JSON.parse(info);
-  };
+  //   return JSON.parse(info);
+  // };
 
-  
+
   const getTaskStatusFromLocalStorage = () => {
     let info = localStorage.getItem("droppable");
     if (info === null) {
@@ -54,9 +54,9 @@ export default function App() {
 
    //set taskItems to localStorage
 
-   let setTaskItemsToLocalStorage = () => {
-    localStorage.setItem("taskItemsInfo", JSON.stringify(taskItems));
-  };
+  //  let setTaskItemsToLocalStorage = () => {
+  //   localStorage.setItem("taskItemsInfo", JSON.stringify(taskItems));
+  // };
 
    //Add New taskItem
 
@@ -68,33 +68,33 @@ export default function App() {
     } else {
       id = taskItems[taskItems.length - 1].id + 1;
     }
-    let idStr=id.toString();
+    // let idStr=id.toString();
     const newTaskItem = {
-      id: idStr,
+      id:id,
       title: task,
       
     };
-    taskItems.push(newTaskItem);
+    const tempTaskItems=[...taskItems]
+    tempTaskItems.push(newTaskItem);
     // console.log(taskItems)
     
-    setTaskItemsToLocalStorage();
+    // setTaskItemsToLocalStorage();
 
     const tempStatus={...taskStatus}
-    tempStatus.requested.items=[...taskItems];
+    tempStatus.requested.items=tempTaskItems;
+    setTaskItems(tempTaskItems)
     setTaskStatus(tempStatus);
     setColumns(tempStatus)
+    localStorage.setItem('droppable',JSON.stringify(tempStatus))
+    console.log(tempStatus)
+
     setTask('');
     
   };
   // localStorage.clear()
   useEffect(() => {
-   
-    const tempTaskItems=getTaskItemsFromLocalStorage()
-    setTaskItems(tempTaskItems);
-    
     
     let tempStatus=getTaskStatusFromLocalStorage();
-    tempStatus.requested.items=[...tempTaskItems];
     setTaskStatus(tempStatus);
     setColumns(tempStatus)
     console.log(tempStatus)
@@ -184,7 +184,7 @@ export default function App() {
             >
               {column.items.map((item, index) => {
                 return (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                  <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
                     {(provided) => (
                       <li
                         ref={provided.innerRef}
