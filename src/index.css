@@ -5,7 +5,7 @@
   font-family: sans-serif;
 }
 body{
-  background-color: #06619a;
+  background-color:#124559
 }
 
 .page-container{
@@ -27,14 +27,14 @@ body{
 .page-container .input-container input{
   padding: 10px;
   border:none;
-  color:#8b9aaa;
+  color:#124559;
   font-size: 20px;
   background-color:#FBFBFB;
 }
 .page-container .input-container button{
   padding: 10px;
   background-color: #EFEFEF;
-  color: #0079C5;
+  color: #124559;
   cursor: pointer;
   font-size: 20px;
   border: none;
@@ -66,16 +66,87 @@ ul{
   width: 250px;
   
   min-height: 500px;
-  padding: 20px;
+  
+  padding: 15px 8px;
   display: flex;
   flex-direction: column;
   background-color: #d3d2d2;
- 
 
 }
+.list-container h2{
+  width: 100%;
+  text-align: center;
+    padding: 10px;
+}
+.list-container:first-child{
+  border-left: 5px solid #5559D6
+ 
+
+
+}
+.list-container:first-child h2{
+ 
+  background-color: #5559D6
+  
+}
+.list-container:first-child li{
+ 
+  background-color: #5559D6
+  
+}
+
+.list-container:nth-child(2){
+  border-left: 5px solid #F1AE53
+ 
+
+
+}
+.list-container:nth-child(2) h2{
+ 
+  background-color: #F1AE53   
+  
+}
+.list-container:nth-child(2) li{
+ 
+  background-color: #F1AE53   
+  
+}
+
+.list-container:nth-child(3){
+  border-left: 5px solid #D04F61
+ 
+
+
+}
+.list-container:nth-child(3) h2{
+ 
+  background-color:  #D04F61  
+  
+}
+.list-container:nth-child(3) li{
+ 
+  background-color:  #D04F61  
+  
+}
+
+.list-container:nth-child(4){
+  border-left: 5px solid #5AC57D
+ 
+
+
+}
+.list-container:nth-child(4) h2{
+ 
+  background-color:   #5AC57D
+  
+}
+.list-container:nth-child(4) li{
+ 
+  background-color:   #5AC57D
+  
+}
 ul li{
-  color: #3F87C3;
-  background-color: #FFFFFF;
+  color: #f5f8f9;
   padding: 10px;
   margin-bottom: 10px;
   min-width: 150px;
@@ -98,7 +169,7 @@ ul li .delete-container h3{
   
 }
 .tasksEmpty{
-  color: #3F87C3;
+  color: #437488;
   padding-top: 10px;
 
 }
@@ -108,9 +179,10 @@ ul li .delete-container h3{
   }
   ul{
    
-    margin: 30px auto;
+    
     min-width: 300px;
     min-height: 400px;
+
     
   }
   li{
@@ -118,8 +190,17 @@ ul li .delete-container h3{
 
   }
   .tasks-container{
-    flex-direction: column;
+    /* flex-direction: column; */
+    overflow-x: auto;
+   
     
+  }
+  .list-container{
+    display: flex;
+   margin-left: 20px;
+  }
+  .list-container:first-child{
+    margin-left: 0;
   }
   
 }

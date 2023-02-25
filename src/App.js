@@ -132,7 +132,7 @@ export default function App() {
             type="text"
             placeholder="Add Task"
             value={task}
-            onChange={(e) => setTask(e.target.value)}
+            onChange={(e) => {setTask(e.target.value);setInputEmpty(false)}}
           />
           {inputEmpty?<p className="empty-input">Field cannot be empty or contain space only</p>:''}
           <button onClick={addNewTaskItem}>+ADD</button>
@@ -143,7 +143,7 @@ export default function App() {
           >
             {Object.entries(columns).map(([columnId, column], index) => {
               return (
-                <div
+                <div className="list-container"
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -152,7 +152,7 @@ export default function App() {
                   key={columnId}
                 >
                   <h2 className="statusName">{column.name}</h2>
-                  <div style={{ margin: 8 }}>
+                  <div >
                     <Droppable droppableId={columnId} key={columnId}>
                       {(provided) => (
                         <ul
@@ -181,7 +181,7 @@ export default function App() {
                                       <h3> {item.title} </h3>
                                       
                                         <AiFillDelete
-                                          style={{ color: "rgb(202, 104, 104)" }}
+                                          style={{ color: "#e63946" }}
                                           size={22}
                                           onClick={(e) => removeTask(item, e)}
                                         />
