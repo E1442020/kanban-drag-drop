@@ -52,6 +52,8 @@ body{
   display: flex;
   justify-content: space-between;
   margin-top: 40px;
+ 
+  
 
 
 }
@@ -62,8 +64,8 @@ body{
 }
 ul{
   list-style-type: none;
-  /* min-width: 200px; */
   width: 250px;
+  
   
   min-height: 500px;
   
@@ -173,6 +175,7 @@ ul li .delete-container h3{
   padding-top: 10px;
 
 }
+
 @media screen and (max-width:1200px){
   .page-container .input-container{
     width: 98%;
@@ -180,13 +183,13 @@ ul li .delete-container h3{
   ul{
    
     
-    min-width: 40vw;
+    min-width: 20vw;
     min-height: 400px;
 
     
   }
   li{
-    min-width: 100px;
+    width: 100%;
 
   }
   .tasks-container{
