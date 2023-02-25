@@ -173,14 +173,14 @@ ul li .delete-container h3{
   padding-top: 10px;
 
 }
-@media screen and (max-width:940px){
+@media screen and (max-width:1200px){
   .page-container .input-container{
     width: 98%;
   }
   ul{
    
     
-    min-width: 300px;
+    min-width: 240px;
     min-height: 400px;
 
     
